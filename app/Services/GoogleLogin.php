@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace app\Services;
 
 /**
- * Class GoogleLogin
- * @package App\Services
+ * Class GoogleLogin.
  */
 class GoogleLogin
 {
@@ -23,9 +22,9 @@ class GoogleLogin
         $this->client->setClientId(\Config::get('google.client_id'));
         $this->client->setClientSecret(\Config::get('google.client_secret'));
         $this->client->setDeveloperKey(\Config::get('google.api_key'));
-        $this->client->setRedirectUri(\Config::get('app.url') . "/loginCallback");
+        $this->client->setRedirectUri(\Config::get('app.url').'/loginCallback');
         $this->client->setScopes([
-            'https://www.googleapis.com/auth/bigquery'
+            'https://www.googleapis.com/auth/bigquery',
         ]);
         $this->client->setAccessType('offline');
     }
@@ -50,6 +49,7 @@ class GoogleLogin
 
     /**
      * @param $code
+     *
      * @return string
      */
     public function login($code)
@@ -71,5 +71,3 @@ class GoogleLogin
         return $authUrl;
     }
 }
-
- 

@@ -1,7 +1,6 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use App\Http\Requests;
-use Illuminate\Http\Request;
+namespace app\Http\Controllers;
 
 class BigQueryAPIController extends Controller
 {
@@ -12,9 +11,9 @@ class BigQueryAPIController extends Controller
 
     public function __construct()
     {
-        $this->bigqueryService = \App::make("bigquery");
+        $this->bigqueryService = \App::make('bigquery');
     }
-    
+
     public function topTen()
     {
         if (!\Input::has('language')) {
@@ -23,12 +22,12 @@ class BigQueryAPIController extends Controller
 
         $language = \Input::get('language', 'PHP');
         $projectID = 'modular-robot-647';
-        $query_str = "SELECT repository_url, MAX(repository_forks) as max_forks" .
-            " FROM githubarchive:year.2014" .
-            " WHERE repository_language='$language'" .
-            " GROUP EACH BY repository_url" .
-            " ORDER BY max_forks DESC" .
-            " LIMIT 10";
+        $query_str = 'SELECT repository_url, MAX(repository_forks) as max_forks'.
+            ' FROM githubarchive:year.2014'.
+            " WHERE repository_language='$language'".
+            ' GROUP EACH BY repository_url'.
+            ' ORDER BY max_forks DESC'.
+            ' LIMIT 10';
 
         $query = new \Google_Service_Bigquery_QueryRequest();
         $query->setQuery($query_str);
@@ -39,5 +38,4 @@ class BigQueryAPIController extends Controller
 
         return \View::make('home', ['repos' => $repos, 'tableHeader' => $fields]);
     }
-
 }

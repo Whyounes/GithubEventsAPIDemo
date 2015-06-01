@@ -1,29 +1,27 @@
-<?php namespace App\Providers;
+<?php
+
+namespace app\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class BigQueryServiceProvider extends ServiceProvider {
+class BigQueryServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap the application services.
+     */
+    public function boot()
+    {
+        //
+    }
 
-	/**
-	 * Bootstrap the application services.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		//
-	}
-
-	/**
-	 * Register the application services.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
+    /**
+     * Register the application services.
+     */
+    public function register()
+    {
         $this->app->bind('GoogleClient', function () {
             $googleClient = new \Google_Client();
-            $googleClient->setAccessToken(\Session::get("token"));
+            $googleClient->setAccessToken(\Session::get('token'));
 
             return $googleClient;
         });
@@ -34,6 +32,5 @@ class BigQueryServiceProvider extends ServiceProvider {
 
             return $bigquery;
         });
-	}
-
+    }
 }

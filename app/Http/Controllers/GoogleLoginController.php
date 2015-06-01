@@ -1,30 +1,29 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use App\Http\Requests;
+namespace app\Http\Controllers;
+
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
 
 /**
- * Class GoogleLoginController
- * @package App\Http\Controllers
+ * Class GoogleLoginController.
  */
 class GoogleLoginController extends Controller
 {
-
   /**
    * @param \App\Services\GoogleLogin $ga
+   *
    * @return string
    */
   public function index(\App\Services\GoogleLogin $ga)
   {
-    if ($ga->isLoggedIn()) {
-      return \Redirect::to('/');
-    }
+      if ($ga->isLoggedIn()) {
+          return \Redirect::to('/');
+      }
 
-    $loginUrl = $ga->getLoginUrl();
+      $loginUrl = $ga->getLoginUrl();
 
-    return "<a href='{$loginUrl}'>login</a>";
+      return "<a href='{$loginUrl}'>login</a>";
   }
 
   /**
@@ -32,19 +31,18 @@ class GoogleLoginController extends Controller
    */
   public function store(\App\Services\GoogleLogin $ga)
   {
-    // User rejected the request
+      // User rejected the request
     if (\Input::has('error')) {
-      dd(\Input::get('error'));
+        dd(\Input::get('error'));
     }
 
-    if (\Input::has('code')) {
-      $code = \Input::get('code');
-      $ga->login($code);
+      if (\Input::has('code')) {
+          $code = \Input::get('code');
+          $ga->login($code);
 
-      return \Redirect::to('/');
-    } else {
-      throw new \InvalidArgumentException("Code attribute is missing.");
-    }//else
+          return \Redirect::to('/');
+      } else {
+          throw new \InvalidArgumentException('Code attribute is missing.');
+      }//else
   }//login
-
 }
